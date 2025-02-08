@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>VCPotato 官方网站</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    #ff0000,
+                    #ff0000 20px,
+                    #ffff00 20px,
+                    #ffff00 40px
+                ),
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .marquee {
+            background: black;
+            color: yellow;
+            font-size: 24px;
+            padding: 10px;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .title {
+            font-size: 48px;
+            text-align: center;
+            margin: 20px 0;
+            animation: rgb 1s infinite;
+            text-shadow: 3px 3px 0 #000,
+                        -1px -1px 0 #fff,
+                         2px 2px 5px rgba(0,0,0,0.5);
+            transform: perspective(500px) rotateX(30deg);
+        }
+
+        .moving-box {
+            position: absolute;
+            background: black;
+            padding: 20px;
+            border: 3px solid yellow;
+            cursor: pointer;
+        }
+
+        @keyframes rgb {
+            0% { color: red; }
+            33% { color: lime; }
+            66% { color: blue; }
+            100% { color: red; }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+
+        .center {
+            position: relative;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        img {
+            width: 357px;
+            height: 406px;
+            border: 5px ridge gold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        img:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee blink">
+        <marquee behavior="scroll" direction="left">吃土豆 就吃VCPOTATO 请认准 中文虚拟烤土豆VCPOTATO.CN官方网站 享受你的土豆</marquee>
+    </div>
+
+    <div class="center">
+        <a href="https://vcpedia.cn" target="_blank">
+            <img src="vcpotato.jpg" alt="VCPotato">
+        </a>
+        <div class="title">VCPotato建站啦</div>
+    </div>
+
+    <div class="marquee blink" style="position: fixed; bottom: 0; width: 100%;">
+        <marquee behavior="scroll" direction="right">正宗土豆在VCPOTATO 每一口让你迟到真正的石灰 更推出土豆馅包子 VCPOTATO里面都是人才 说话又好听 请认准 中文虚拟烤土豆VCPOTATO.CN官方网站 享受你的土豆</marquee>
+    </div>
+
+    <div class="moving-box" id="movingBox">❤快❤来❤享❤用❤土❤豆❤</div>
+
+    <script>
+        const box = document.getElementById('movingBox');
+        // 生成20-60度之间的随机初始角度
+        const initialAngle = Math.random() * 40 + 20;
+        const radians = initialAngle * Math.PI / 180;
+        const speed = 3;
+        
+        // 根据角度计算运动方向
+        let dx = Math.cos(radians) * speed;
+        let dy = Math.sin(radians) * speed;
+        
+        let colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+        let colorIndex = 0;
+
+        function moveBox() {
+            let x = parseFloat(box.style.left) || 0;
+            let y = parseFloat(box.style.top) || 0;
+            
+            x += dx;
+            y += dy;
+
+            const maxX = window.innerWidth - box.offsetWidth;
+            const maxY = window.innerHeight - box.offsetHeight;
+
+            if (x < 0 || x > maxX) {
+                dx = -dx;
+                changeColor();
+            }
+            if (y < 0 || y > maxY) {
+                dy = -dy;
+                changeColor();
+            }
+
+            box.style.left = x + 'px';
+            box.style.top = y + 'px';
+            requestAnimationFrame(moveBox);
+        }
+
+        function changeColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            box.style.color = colors[colorIndex];
+        }
+
+        // 初始位置
+        box.style.left = '100px';
+        box.style.top = '100px';
+        moveBox();
+    </script>
+</body>
+</html>
